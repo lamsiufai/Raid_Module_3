@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: dockerfile
+    ports:
+      - "5001:5001"        # Exposing the app's port
+    depends_on:
+      - redis               # Ensures Redis starts before the app
+    environment:
+      - REDIS_HOST=redis    # Passing Redis hostname as an environment variable
+      - REDIS_PORT=6379     # Optional: default Redis port
+#      - REDIS_PASSWORD=rosyth123
+    networks:
+      - app-network
+    links:
+      - redis
+#      - app-network
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"         # Exposing Redis port
+#    volumes:
+#      - ./redis.conf:/usr/local/etc/redis/redis.conf  # Mount redis.conf file
+    command: redis-server  #"/usr/local/etc/redis/redis.conf"] # Start Redis with the custom config    
+    networks:
+      - app-network         # Both containers are in the same network
+
+networks:
+  app-network:
+    driver: bridge          # This is the default Docker network type
+    driver_opts: 
+      com.docker.network.bridge.host_binding_ipv4: "127.0.0.1"
+    attachable: true
