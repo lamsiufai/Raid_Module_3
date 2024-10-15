@@ -12,7 +12,6 @@ services:
     environment:
       - REDIS_HOST=redis    # Passing Redis hostname as an environment variable
       - REDIS_PORT=6379     # Optional: default Redis port
-#      - REDIS_PASSWORD=rosyth123
     networks:
       - app-network
     links:
