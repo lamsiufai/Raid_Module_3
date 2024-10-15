@@ -30,9 +30,9 @@ client.on('error', (err) => {
     console.error('Error connecting to Redis', err);
 });
 
-//client.on('connect', () => {
-//    console.log('Connected to Redis');
-//});
+client.on('connect', () => {
+    console.log('Connected to Redis');
+});
 
 (async () => {
    await client.connect();
